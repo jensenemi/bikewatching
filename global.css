@@ -8,20 +8,13 @@ body {
     padding: 5em;
 }
 
-/* .container {
+.container {
     align-items: center;
     max-width: 80em;
     width: 100%;
     margin-inline: auto;
     flex-wrap: wrap;
     gap: 3em;
-} */
-
-.container {
-    display: flex;         
-    align-items: center; 
-    gap: 2em;               
-    flex-wrap: wrap;       
 }
 
 h1, p {
