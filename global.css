@@ -44,3 +44,13 @@ header {
 #time-slider {
     width: 350px;
 }
+
+h1 {
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+p {
+    padding-left: 2em;
+    padding-right: 2em;
+}
