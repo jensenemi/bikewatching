@@ -23,6 +23,14 @@ const bikeLaneStyle = {
     'line-opacity': 0.6,
 };
 
+const svg = d3.select('#map').select('svg');
+
+function getCoords(station) {
+    const point = new mapboxgl.LngLat(+station.lon, +station.lat); // Convert lon/lat to Mapbox LngLat
+    const { x, y } = map.project(point); // Project to pixel coordinates
+    return { cx: x, cy: y }; // Return as object for use in SVG attributes
+}
+
 map.on('load', async () => {
     map.addSource('boston_route', {
         type: 'geojson',
@@ -52,6 +60,17 @@ map.on('load', async () => {
         console.log('Loaded JSON Data:', jsonData); // Log to verify structure
         let stations = jsonData.data.stations;
         console.log('Stations Array:', stations);
+        // Append circles to the SVG for each station
+        const circles = svg
+        .selectAll('circle')
+        .data(stations)
+        .enter()
+        .append('circle')
+        .attr('r', 5) // Radius of the circle
+        .attr('fill', 'steelblue') // Circle fill color
+        .attr('stroke', 'white') // Circle border color
+        .attr('stroke-width', 1) // Circle border thickness
+        .attr('opacity', 0.8); // Circle opacity
     } catch (error) {
         console.error('Error loading JSON:', error); // Handle errors
     }
