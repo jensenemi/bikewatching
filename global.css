@@ -17,11 +17,12 @@ header {
     display: flex;
     gap: 1em;
     align-items: baseline;
+    width: 100%;
 }
 
-/* header .time-filter {
+header .time-filter {
     margin-left: auto;
-} */
+}
 
 /* label {
     margin-left: auto; 
