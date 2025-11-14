@@ -53,12 +53,13 @@ map.on('load', async () => {
         paint: bikeLaneStyle
     });
     let jsonData;
+    let stations;
     try {
         const jsonurl = 'https://dsc106.com/labs/lab07/data/bluebikes-stations.json';
         // Await JSON fetch
         const jsonData = await d3.json(jsonurl);
         console.log('Loaded JSON Data:', jsonData); // Log to verify structure
-        let stations = jsonData.data.stations;
+        stations = jsonData.data.stations;
         console.log('Stations Array:', stations);
         // Append circles to the SVG for each station
         const circles = svg
@@ -93,6 +94,23 @@ map.on('load', async () => {
     try {
         const trafficUrl = 'https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv';
         const trips = await d3.csv(trafficUrl);
+        const departures = d3.rollup(
+            trips,
+            (v) => v.length,
+            (d) => d.start_station_id,
+        );
+        const arrivals = d3.rollup(
+            trips,
+            v => v.length,
+            d => d.end_station_id
+        );
+        stations = stations.map((station) => {
+            let id = station.short_name;
+            station.arrivals = arrivals.get(id) ?? 0;
+            station.departures = departures.get(id) ?? 0;
+            station.totalTraffic = station.departures + station.arrivals;
+            return station;
+        });
     } catch (error) {
         console.error('Error loading traffic CSV:', error);
     }
