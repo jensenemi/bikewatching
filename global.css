@@ -19,7 +19,8 @@ header {
 label {
     margin-left: auto; 
     display: flex;
-    flex-direction: column; 
+    flex-direction: row; 
+    gap: 0.5em;
 }
 
 time {
