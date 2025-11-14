@@ -40,3 +40,7 @@ header {
     font-style: italic;
     text-align: right;
 }
+
+#time-slider {
+    width: 350px;
+}
