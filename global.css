@@ -1,7 +1,7 @@
 body {
     font: 100%/1.5 system-ui, sans-serif;
-    display: flex;
-    flex-flow: column;
+    /* display: flex;
+    flex-flow: column; */
     max-width: 80em;
     min-height: 100vh;
     box-sizing: border-box;
