@@ -13,6 +13,7 @@ body {
     margin-inline: auto;  
     padding: 0 2em;        
     box-sizing: border-box;
+    height: 500px;
 }
 
 #map {
