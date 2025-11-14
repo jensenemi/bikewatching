@@ -121,13 +121,12 @@ map.on('load', async () => {
         paint: bikeLaneStyle
     });
     let jsonData;
+    let stations;
     try {
         const jsonurl = 'https://dsc106.com/labs/lab07/data/bluebikes-stations.json';
         // Await JSON fetch
         const jsonData = await d3.json(jsonurl);
         console.log('Loaded JSON Data:', jsonData); // Log to verify structure
-        stations = jsonData.data.stations;
-        console.log('Stations Array:', stations);
 
         //within the map.on('load')
         let trips = await d3.csv(
@@ -148,7 +147,7 @@ map.on('load', async () => {
             v => v.length,
             d => d.end_station_id
         );
-        const stations = computeStationTraffic(jsonData.data.stations, trips);
+        stations = computeStationTraffic(jsonData.data.stations, trips);
         const radiusScale = d3
             .scaleSqrt()
             .domain([0, d3.max(stations, (d) => d.totalTraffic)])
@@ -198,8 +197,10 @@ map.on('load', async () => {
             // Update the scatterplot by adjusting the radius of circles
             circles
               .data(filteredStations, (d) => d.short_name)
-              .join('circle') // Ensure the data is bound correctly
-              .attr('r', (d) => radiusScale(d.totalTraffic)); // Update circle sizes
+            //   .join('circle') // Ensure the data is bound correctly
+              .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
+              .select('title')
+              .text(d => `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
         }
         updateTimeDisplay();
     } catch (error) {
