@@ -61,6 +61,30 @@ map.on('load', async () => {
         console.log('Loaded JSON Data:', jsonData); // Log to verify structure
         stations = jsonData.data.stations;
         console.log('Stations Array:', stations);
+
+        const trafficUrl = 'https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv';
+        const trips = await d3.csv(trafficUrl);
+        const departures = d3.rollup(
+            trips,
+            (v) => v.length,
+            (d) => d.start_station_id,
+        );
+        const arrivals = d3.rollup(
+            trips,
+            v => v.length,
+            d => d.end_station_id
+        );
+        stations = stations.map((station) => {
+            let id = station.short_name;
+            station.arrivals = arrivals.get(id) ?? 0;
+            station.departures = departures.get(id) ?? 0;
+            station.totalTraffic = station.departures + station.arrivals;
+            return station;
+        });
+        const radiusScale = d3
+            .scaleSqrt()
+            .domain([0, d3.max(stations, (d) => d.totalTraffic)])
+            .range([0, 25]);
         // Append circles to the SVG for each station
         const circles = svg
             .selectAll('circle')
@@ -68,7 +92,8 @@ map.on('load', async () => {
             .enter()
             .append('circle')
             .attr('cx', d => getCoords(d).cx)              
-            .attr('cy', d => getCoords(d).cy)                
+            .attr('cy', d => getCoords(d).cy)    
+            .attr('r', d => radiusScale(d.totalTraffic))            
             .attr('fill', 'steelblue') // Circle fill color
             .attr('stroke', 'white') // Circle border color
             .attr('stroke-width', 1) // Circle border thickness
@@ -97,36 +122,5 @@ map.on('load', async () => {
 
     } catch (error) {
         console.error('Error loading JSON:', error); // Handle errors
-    }
-
-    try {
-        const trafficUrl = 'https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv';
-        const trips = await d3.csv(trafficUrl);
-        const departures = d3.rollup(
-            trips,
-            (v) => v.length,
-            (d) => d.start_station_id,
-        );
-        const arrivals = d3.rollup(
-            trips,
-            v => v.length,
-            d => d.end_station_id
-        );
-        stations = stations.map((station) => {
-            let id = station.short_name;
-            station.arrivals = arrivals.get(id) ?? 0;
-            station.departures = departures.get(id) ?? 0;
-            station.totalTraffic = station.departures + station.arrivals;
-            return station;
-        });
-        const radiusScale = d3
-            .scaleSqrt()
-            .domain([0, d3.max(stations, (d) => d.totalTraffic)])
-            .range([0, 25]);
-        svg.selectAll('circle')
-            .data(stations)
-            .attr('r', d => radiusScale(d.totalTraffic));
-    } catch (error) {
-        console.error('Error loading traffic CSV:', error);
     }
 });
