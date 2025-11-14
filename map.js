@@ -115,6 +115,9 @@ map.on('load', async () => {
             .scaleSqrt()
             .domain([0, d3.max(stations, (d) => d.totalTraffic)])
             .range([0, 25]);
+        svg.selectAll('circle')
+            .data(stations)
+            .attr('r', d => radiusScale(d.totalTraffic));
     } catch (error) {
         console.error('Error loading traffic CSV:', error);
     }
