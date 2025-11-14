@@ -5,8 +5,8 @@ body {
     max-width: 80em;
     min-height: 100vh;
     box-sizing: border-box;
-    margin: auto;
-    padding: 1rem;
+    margin-inline: auto;
+    padding: 5em;
 }
 
 h1, p {
