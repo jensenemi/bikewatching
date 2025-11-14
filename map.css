@@ -28,4 +28,5 @@ svg circle {
     fill: steelblue;
     fill-opacity: 60%;
     stroke: white;
+    pointer-events: auto;
 }
