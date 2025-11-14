@@ -7,6 +7,14 @@ body {
   box-sizing: border-box;
 }
 
+.map-wrapper {
+    max-width: 80em;      
+    width: 100%;
+    margin-inline: auto;  
+    padding: 0 2em;        
+    box-sizing: border-box;
+}
+
 #map {
   width: 100%; /* Adjust width to your desired size */
   height: 100%; /* Adjust height to your desired size */
