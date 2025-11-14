@@ -23,7 +23,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center; /* center everything horizontally */
-    gap: 3em; /* spacing between container and map */
+    gap: 1em; /* spacing between container and map */
     min-height: 100vh;
 }
 
