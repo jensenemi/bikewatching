@@ -9,7 +9,7 @@ body {
     padding: 1em;
 }
 
-/* header {
+header {
     display: flex;
     gap: 1em;
     align-items: baseline;
@@ -21,7 +21,8 @@ label {
     display: flex;
     flex-direction: row; 
     gap: 0.5em;
-} */
+}
+
 .time-filter .top-row {
     display: flex;
     align-items: center;
