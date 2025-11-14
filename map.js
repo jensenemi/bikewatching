@@ -126,9 +126,9 @@ map.on('load', async () => {
 });
 
 let timeFilter = -1;
-const timeSlider = document.getElementById('#time-slider');
-const selectedTime = document.getElementById('#selected-time');
-const anyTimeLabel = document.getElementById('#any-time');
+const timeSlider = document.getElementById('time-slider');
+const selectedTime = document.getElementById('selected-time');
+const anyTimeLabel = document.getElementById('any-time');
 
 function formatTime(minutes) {
     const date = new Date(0, 0, 0, 0, minutes); // Set hours & minutes
