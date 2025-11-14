@@ -19,6 +19,10 @@ header {
     align-items: baseline;
 }
 
+header .time-filter {
+    margin-left: auto;
+}
+
 /* label {
     margin-left: auto; 
     display: flex;
