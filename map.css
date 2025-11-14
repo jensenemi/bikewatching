@@ -11,7 +11,7 @@ body {
     max-width: 80em;      
     width: 100%;
     margin-inline: auto;  
-    padding: 0 2em;        
+    padding: 2em;        
     box-sizing: border-box;
     height: 100%;
 }
