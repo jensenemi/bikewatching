@@ -14,27 +14,29 @@
     <link rel="stylesheet" href="map.css" />
   </head>
   <body>
-    <h1>🚴🏼‍♀️ Bikewatching</h1>
+    <div class="container">
+        <h1>🚴🏼‍♀️ Bikewatching</h1>
         <p>
             An interactive visualization of bike traffic in the Boston area during
             different times of the day. 
-        </p>    
-    <header>
-        <label for="time-slider" class="time-filter">
-            <div class="top-row">
-                <span>Filter by time:</span>
-                <input 
-                    type="range" 
-                    id="time-slider" 
-                     min="-1" 
-                    max="1440" 
-                    value="-1"
-                >
-            </div>
-            <em id="any-time-text">(any time)</em>
-            <time id="selected-time">--:--</time>
-          </label>
-    </header>
+        </p>
+        <header>
+            <label for="time-slider" class="time-filter">
+                <div class="top-row">
+                    <span>Filter by time:</span>
+                    <input 
+                        type="range" 
+                        id="time-slider" 
+                         min="-1" 
+                        max="1440" 
+                        value="-1"
+                    >
+                </div>
+                <em id="any-time-text">(any time)</em>
+                <time id="selected-time">--:--</time>
+              </label>
+        </header>
+    </div>    
     <div id="map">
         <svg></svg>
     </div>
