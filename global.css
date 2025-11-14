@@ -31,10 +31,12 @@ header {
 
 .time-filter time {
     display: block;
+    text-align: right;
 }
   
 .time-filter em {
     display: block; 
     color: #888;
     font-style: italic;
+    text-align: right;
 }
