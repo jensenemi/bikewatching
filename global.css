@@ -1,17 +1,17 @@
 body {
     font: 100%/1.5 system-ui, sans-serif;
     display: flex;
-    flex-flow: column;
+    /* flex-flow: column; */
     max-width: 80em;
     min-height: 100vh;
     box-sizing: border-box;
-    margin-inline: auto;
     padding: 5em;
 }
 
 .container {
     max-width: 80em;
     width: 100%;
+    margin-inline: auto;
 }
 
 h1, p {
