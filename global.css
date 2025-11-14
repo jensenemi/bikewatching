@@ -6,7 +6,10 @@ body {
     min-height: 100vh;
     box-sizing: border-box;
     margin: auto;
-    padding: 4em;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 2em;
+    padding-bottom: 2em;
 }
 
 header {
@@ -43,14 +46,4 @@ header {
 
 #time-slider {
     width: 350px;
-}
-
-h1 {
-    padding-left: 2em;
-    padding-right: 2em;
-}
-
-p {
-    padding-left: 2em;
-    padding-right: 2em;
 }
