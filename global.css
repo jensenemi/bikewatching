@@ -16,12 +16,12 @@ header {
     margin-left: auto;
 }
 
-label {
+/* label {
     margin-left: auto; 
     display: flex;
     flex-direction: row; 
     gap: 0.5em;
-}
+} */
 
 .time-filter .top-row {
     display: flex;
