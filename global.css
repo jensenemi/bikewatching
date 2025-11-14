@@ -5,9 +5,12 @@ body {
     max-width: 80em;
     min-height: 100vh;
     box-sizing: border-box;
-    align-items: center;
     margin: auto;
     padding: 2em;
+}
+
+h1, p {
+    text-align: left; 
 }
 
 header {
