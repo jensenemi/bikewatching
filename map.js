@@ -111,6 +111,10 @@ map.on('load', async () => {
             station.totalTraffic = station.departures + station.arrivals;
             return station;
         });
+        const radiusScale = d3
+            .scaleSqrt()
+            .domain([0, d3.max(stations, (d) => d.totalTraffic)])
+            .range([0, 25]);
     } catch (error) {
         console.error('Error loading traffic CSV:', error);
     }
