@@ -112,7 +112,6 @@ map.on('load', async () => {
         // Await JSON fetch
         const jsonData = await d3.json(jsonurl);
         console.log('Loaded JSON Data:', jsonData); // Log to verify structure
-        const stations = computeStationTraffic(jsonData.data.stations, trips);
 
         //within the map.on('load')
         let trips = await d3.csv(
@@ -123,6 +122,7 @@ map.on('load', async () => {
                 return trip;
             },
         );
+        const stations = computeStationTraffic(jsonData.data.stations, trips);
         const departures = d3.rollup(
             trips,
             (v) => v.length,
