@@ -156,7 +156,8 @@ map.on('load', async () => {
         const circles = svg
             .selectAll('circle')
             .data(stations, (d) => d.short_name)
-            .join('circle')
+            .enter()
+            .append('circle')
             .attr('cx', d => getCoords(d).cx)              
             .attr('cy', d => getCoords(d).cy)    
             .attr('r', d => radiusScale(d.totalTraffic))            
@@ -171,6 +172,7 @@ map.on('load', async () => {
                         `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`,
                     );
             });
+    
         // Function to update circle positions when the map moves/zooms
         function updatePositions() {
             circles
