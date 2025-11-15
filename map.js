@@ -141,9 +141,8 @@ map.on('load', async () => {
         let circles = svg
             .selectAll('circle')
             .data(stations, (d) => d.short_name)
-            // .enter()
-            // .append('circle')
-            .join('circle')
+            .enter()
+            .append('circle')
             .attr('cx', d => getCoords(d).cx)              
             .attr('cy', d => getCoords(d).cy)    
             .attr('r', d => radiusScale(d.totalTraffic))            
