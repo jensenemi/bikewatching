@@ -83,20 +83,6 @@ function formatTime(minutes) {
     return date.toLocaleString('en-US', { timeStyle: 'short' }); // Format as HH:MM AM/PM
 }
 
-function updateTimeDisplay() {
-    timeFilter = Number(timeSlider.value); // Get slider value
-  
-    if (timeFilter === -1) {
-      selectedTime.textContent = ''; // Clear time display
-      anyTimeLabel.style.display = 'block'; // Show "(any time)"
-    } else {
-      selectedTime.textContent = formatTime(timeFilter); // Display formatted time
-      anyTimeLabel.style.display = 'none'; // Hide "(any time)"
-    }
-    // Trigger filtering logic which will be implemented in the next step
-    updateScatterPlot(timeFilter);
-}
-
 timeSlider.addEventListener('input', updateTimeDisplay);
 
 map.on('load', async () => {
@@ -187,21 +173,35 @@ map.on('load', async () => {
         map.on('resize', updatePositions); // Update on window resize
         map.on('moveend', updatePositions); // Final adjustment after movement ends
 
+        function updateTimeDisplay() {
+            timeFilter = Number(timeSlider.value); // Get slider value
+          
+            if (timeFilter === -1) {
+              selectedTime.textContent = ''; // Clear time display
+              anyTimeLabel.style.display = 'block'; // Show "(any time)"
+            } else {
+              selectedTime.textContent = formatTime(timeFilter); // Display formatted time
+              anyTimeLabel.style.display = 'none'; // Hide "(any time)"
+            }
+            // Trigger filtering logic which will be implemented in the next step
+            updateScatterPlot(timeFilter);
+        }
+
         function updateScatterPlot(timeFilter) {
             // Get only the trips that match the selected time filter
             const filteredTrips = filterTripsbyTime(trips, timeFilter);
           
             // Recompute station traffic based on the filtered trips
-            const filteredStations = computeStationTraffic(stations.map(s => ({ ...s })), filteredTrips);
+            const filteredStations = computeStationTraffic(stations, filteredTrips);
 
             timeFilter === -1 ? radiusScale.range([0, 25]) : radiusScale.range([3, 50]);
             // Update the scatterplot by adjusting the radius of circles
             circles
               .data(filteredStations, (d) => d.short_name)
-              // .join('circle') // Ensure the data is bound correctly
+              .join('circle') // Ensure the data is bound correctly
               .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
               .attr('cx', d => getCoords(d).cx)
-              .attr('cy', d => getCoords(d).cy)
+              .attr('cy', d => getCoords(d).cy);
         }
         updateTimeDisplay();
     } catch (error) {
