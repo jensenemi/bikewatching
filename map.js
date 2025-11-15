@@ -197,7 +197,7 @@ map.on('load', async () => {
             // Update the scatterplot by adjusting the radius of circles
             circles
               .data(filteredStations, (d) => d.short_name)
-              .join('circle') // Ensure the data is bound correctly
+              //.join('circle') // Ensure the data is bound correctly
               .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
         }
         timeSlider.addEventListener('input', updateTimeDisplay);
