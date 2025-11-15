@@ -168,6 +168,7 @@ map.on('load', async () => {
         map.on('zoom', updatePositions); // Update during zooming
         map.on('resize', updatePositions); // Update on window resize
         map.on('moveend', updatePositions); // Final adjustment after movement ends
+
         function updateTimeDisplay() {
             timeFilter = Number(timeSlider.value); // Get slider value
           
@@ -193,15 +194,13 @@ map.on('load', async () => {
             // Update the scatterplot by adjusting the radius of circles
             circles
               .data(filteredStations, (d) => d.short_name)
-            .join('circle') // Ensure the data is bound correctly
+              .join('circle') // Ensure the data is bound correctly
               .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
               .each(function(d) {
                 d3.select(this)
                   .select('title')
                   .text(`${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
                 });
-              //.select('title')
-              //.text(d => `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
         }
         timeSlider.addEventListener('input', updateTimeDisplay);
         updateTimeDisplay();
