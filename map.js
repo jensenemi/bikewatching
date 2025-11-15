@@ -78,20 +78,6 @@ function computeStationTraffic(stations, trips) {
     });
 }
 
-function updateTimeDisplay() {
-    timeFilter = Number(timeSlider.value); // Get slider value
-  
-    if (timeFilter === -1) {
-      selectedTime.textContent = ''; // Clear time display
-      anyTimeLabel.style.display = 'block'; // Show "(any time)"
-    } else {
-      selectedTime.textContent = formatTime(timeFilter); // Display formatted time
-      anyTimeLabel.style.display = 'none'; // Hide "(any time)"
-    }
-    // Trigger filtering logic which will be implemented in the next step
-    updateScatterPlot(timeFilter);
-}
-
 function formatTime(minutes) {
     const date = new Date(0, 0, 0, 0, minutes); // Set hours & minutes
     return date.toLocaleString('en-US', { timeStyle: 'short' }); // Format as HH:MM AM/PM
@@ -182,6 +168,19 @@ map.on('load', async () => {
         map.on('zoom', updatePositions); // Update during zooming
         map.on('resize', updatePositions); // Update on window resize
         map.on('moveend', updatePositions); // Final adjustment after movement ends
+        function updateTimeDisplay() {
+            timeFilter = Number(timeSlider.value); // Get slider value
+          
+            if (timeFilter === -1) {
+              selectedTime.textContent = ''; // Clear time display
+              anyTimeLabel.style.display = 'block'; // Show "(any time)"
+            } else {
+              selectedTime.textContent = formatTime(timeFilter); // Display formatted time
+              anyTimeLabel.style.display = 'none'; // Hide "(any time)"
+            }
+            // Trigger filtering logic which will be implemented in the next step
+            updateScatterPlot(timeFilter);
+        }
 
         function updateScatterPlot(timeFilter) {
             // Get only the trips that match the selected time filter
@@ -194,7 +193,7 @@ map.on('load', async () => {
             // Update the scatterplot by adjusting the radius of circles
             circles
               .data(filteredStations, (d) => d.short_name)
-              //.join('circle') // Ensure the data is bound correctly
+            .join('circle') // Ensure the data is bound correctly
               .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
               .each(function(d) {
                 d3.select(this)
