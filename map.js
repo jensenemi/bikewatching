@@ -73,15 +73,15 @@ function computeStationTraffic(stations, trips) {
     });
 }
 
-let timeFilter = -1;
-const timeSlider = document.getElementById('time-slider');
-const selectedTime = document.getElementById('selected-time');
-const anyTimeLabel = document.getElementById('any-time-text');
-
 function formatTime(minutes) {
     const date = new Date(0, 0, 0, 0, minutes); // Set hours & minutes
     return date.toLocaleString('en-US', { timeStyle: 'short' }); // Format as HH:MM AM/PM
 }
+
+let timeFilter = -1;
+const timeSlider = document.getElementById('time-slider');
+const selectedTime = document.getElementById('selected-time');
+const anyTimeLabel = document.getElementById('any-time-text');
 
 timeSlider.addEventListener('input', updateTimeDisplay);
 
@@ -112,7 +112,7 @@ map.on('load', async () => {
         // Await JSON fetch
         const jsonData = await d3.json(jsonurl);
         console.log('Loaded JSON Data:', jsonData); // Log to verify structure
-
+        let stations = jsonData.data.stations;
         //within the map.on('load')
         let trips = await d3.csv(
             'https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv',
@@ -122,7 +122,7 @@ map.on('load', async () => {
                 return trip;
             },
         );
-        const stations = computeStationTraffic(jsonData.data.stations, trips);
+        stations = computeStationTraffic(jsonData.data.stations, trips);
         const departures = d3.rollup(
             trips,
             (v) => v.length,
@@ -138,11 +138,12 @@ map.on('load', async () => {
             .domain([0, d3.max(stations, (d) => d.totalTraffic)])
             .range([0, 25]);
         // Append circles to the SVG for each station
-        const circles = svg
+        let circles = svg
             .selectAll('circle')
             .data(stations, (d) => d.short_name)
-            .enter()
-            .append('circle')
+            // .enter()
+            // .append('circle')
+            .join('circle')
             .attr('cx', d => getCoords(d).cx)              
             .attr('cy', d => getCoords(d).cy)    
             .attr('r', d => radiusScale(d.totalTraffic))            
@@ -192,11 +193,11 @@ map.on('load', async () => {
             const filteredTrips = filterTripsbyTime(trips, timeFilter);
           
             // Recompute station traffic based on the filtered trips
-            const filteredStations = computeStationTraffic(stations, filteredTrips);
+            const filteredStations = computeStationTraffic(stations.map(s => ({ ...s })), filteredTrips);
 
             timeFilter === -1 ? radiusScale.range([0, 25]) : radiusScale.range([3, 50]);
             // Update the scatterplot by adjusting the radius of circles
-            circles
+            circles = circles
               .data(filteredStations, (d) => d.short_name)
               .join('circle') // Ensure the data is bound correctly
               .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
