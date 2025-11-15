@@ -28,6 +28,10 @@ function getCoords(station) {
     return { cx: x, cy: y }; // Return as object for use in SVG attributes
 }
 
+function minutesSinceMidnight(date) {
+    return date.getHours() * 60 + date.getMinutes();
+}
+
 function filterTripsbyTime(trips, timeFilter) {
     return timeFilter === -1
       ? trips // If no filter is applied (-1), return all trips
@@ -42,10 +46,6 @@ function filterTripsbyTime(trips, timeFilter) {
             Math.abs(endedMinutes - timeFilter) <= 60
           );
         });
-}
-
-function minutesSinceMidnight(date) {
-    return date.getHours() * 60 + date.getMinutes();
 }
 
 function computeStationTraffic(stations, trips) {
@@ -121,12 +121,12 @@ map.on('load', async () => {
         paint: bikeLaneStyle
     });
     let jsonData;
-    let stations;
     try {
         const jsonurl = 'https://dsc106.com/labs/lab07/data/bluebikes-stations.json';
         // Await JSON fetch
         const jsonData = await d3.json(jsonurl);
         console.log('Loaded JSON Data:', jsonData); // Log to verify structure
+        const stations = computeStationTraffic(jsonData.data.stations, trips);
 
         //within the map.on('load')
         let trips = await d3.csv(
@@ -147,7 +147,6 @@ map.on('load', async () => {
             v => v.length,
             d => d.end_station_id
         );
-        stations = computeStationTraffic(jsonData.data.stations, trips);
         const radiusScale = d3
             .scaleSqrt()
             .domain([0, d3.max(stations, (d) => d.totalTraffic)])
