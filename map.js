@@ -70,11 +70,11 @@ function computeStationTraffic(stations, trips) {
 
     // Update each station..
     return stations.map((station) => {
-        let id = station.station_id;
+        let id = station.short_name;
         station.arrivals = arrivals.get(id) ?? 0;
         station.departures = departures.get(id) ?? 0;
         station.totalTraffic = station.departures + station.arrivals;
-        return station;
+    return station;
     });
 }
 
@@ -151,7 +151,7 @@ map.on('load', async () => {
         // Append circles to the SVG for each station
         const circles = svg
             .selectAll('circle')
-            .data(stations, (d) => d.station_id)
+            .data(stations, (d) => d.short_name)
             .enter()
             .append('circle')
             .attr('cx', d => getCoords(d).cx)              
@@ -194,7 +194,7 @@ map.on('load', async () => {
             timeFilter === -1 ? radiusScale.range([0, 25]) : radiusScale.range([3, 50]);
             // Update the scatterplot by adjusting the radius of circles
             circles
-              .data(filteredStations, (d) => d.station_id)
+              .data(filteredStations, (d) => d.short_name)
               //.join('circle') // Ensure the data is bound correctly
               .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
               .each(function(d) {
