@@ -22,6 +22,11 @@ const bikeLaneStyle = {
 
 const svg = d3.select('#map').select('svg');
 
+let timeFilter = -1;
+const timeSlider = document.getElementById('time-slider');
+const selectedTime = document.getElementById('selected-time');
+const anyTimeLabel = document.getElementById('any-time-text');
+
 function getCoords(station) {
     const point = new mapboxgl.LngLat(+station.lon, +station.lat); // Convert lon/lat to Mapbox LngLat
     const { x, y } = map.project(point); // Project to pixel coordinates
@@ -92,12 +97,6 @@ function formatTime(minutes) {
     return date.toLocaleString('en-US', { timeStyle: 'short' }); // Format as HH:MM AM/PM
 }
 
-let timeFilter = -1;
-const timeSlider = document.getElementById('time-slider');
-const selectedTime = document.getElementById('selected-time');
-const anyTimeLabel = document.getElementById('any-time-text');
-
-timeSlider.addEventListener('input', updateTimeDisplay);
 
 map.on('load', async () => {
     map.addSource('boston_route', {
@@ -203,6 +202,7 @@ map.on('load', async () => {
               .attr('cx', d => getCoords(d).cx)
               .attr('cy', d => getCoords(d).cy);
         }
+        timeSlider.addEventListener('input', updateTimeDisplay);
         updateTimeDisplay();
     } catch (error) {
         console.error('Error loading JSON:', error); // Handle errors
