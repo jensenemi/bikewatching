@@ -203,14 +203,6 @@ map.on('load', async () => {
               .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
               .attr('cx', d => getCoords(d).cx)
               .attr('cy', d => getCoords(d).cy)
-              .attr('fill', 'steelblue')
-              .attr('stroke', 'white')
-              .attr('stroke-width', 1)
-              .attr('opacity', 0.8)
-              .selectAll('title')
-              .data(d => [d]) // bind each circle to its own title
-              .join('title')
-              .text(d => `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
         }
         updateTimeDisplay();
     } catch (error) {
