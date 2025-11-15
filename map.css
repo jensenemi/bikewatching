@@ -60,9 +60,7 @@ svg circle {
     display: flex;
     gap: 1px; 
     margin-block: 10px;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
+    position: fixed;
     background: rgba(255, 255, 255, 0.9);
     padding: 4px 6px;
     border-radius: 6px;
