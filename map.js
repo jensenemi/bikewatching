@@ -97,7 +97,7 @@ function formatTime(minutes) {
     return date.toLocaleString('en-US', { timeStyle: 'short' }); // Format as HH:MM AM/PM
 }
 
-
+let circles;
 map.on('load', async () => {
     map.addSource('boston_route', {
         type: 'geojson',
@@ -151,7 +151,7 @@ map.on('load', async () => {
             .domain([0, d3.max(stations, (d) => d.totalTraffic)])
             .range([0, 25]);
         // Append circles to the SVG for each station
-        const circles = svg
+        circles = svg
             .selectAll('circle')
             .data(stations, (d) => d.short_name)
             .enter()
