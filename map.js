@@ -198,8 +198,13 @@ map.on('load', async () => {
               .data(filteredStations, (d) => d.short_name)
               //.join('circle') // Ensure the data is bound correctly
               .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
-              .select('title')
-              .text(d => `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
+              .each(function(d) {
+                d3.select(this)
+                  .select('title')
+                  .text(`${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
+                });
+              //.select('title')
+              //.text(d => `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
         }
         timeSlider.addEventListener('input', updateTimeDisplay);
         updateTimeDisplay();
